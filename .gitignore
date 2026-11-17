@@ -1,0 +1,10 @@
+/target/
+/build/
+graphify-out/
+outputs/
+settings.json
+*.tmp
+.lemonade-studio/
+lemonade-studio.log
+__pycache__/
+*.pyc

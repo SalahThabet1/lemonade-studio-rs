@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="lemonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF066"/>
+      <stop offset="70%" stop-color="#F5C211"/>
+      <stop offset="100%" stop-color="#E5A50A"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#57E389"/>
+      <stop offset="100%" stop-color="#26A269"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base Shadow -->
+  <ellipse cx="64" cy="68" rx="46" ry="40" fill="url(#lemonGrad)" filter="url(#dropShadow)" transform="rotate(-25 64 68)"/>
+
+  <!-- Leaf -->
+  <path d="M60 28 C64 12, 88 18, 92 34 C82 46, 68 40, 60 28 Z" fill="url(#leafGrad)"/>
+  <path d="M64 28 C74 24, 82 26, 88 32" stroke="#1C7146" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Lemon Body Details -->
+  <path d="M30 48 C44 32, 84 34, 98 56 C108 72, 94 98, 76 102 C48 108, 22 84, 30 48 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3"/>
+
+  <!-- Pixel Art Star Grid Accent -->
+  <rect x="42" y="60" width="8" height="8" fill="#FFFFFF" fill-opacity="0.9"/>
+  <rect x="50" y="52" width="8" height="8" fill="#FFFFFF" fill-opacity="0.9"/>
+  <rect x="50" y="68" width="8" height="8" fill="#FFFFFF" fill-opacity="0.9"/>
+  <rect x="58" y="60" width="8" height="8" fill="#FFFFFF" fill-opacity="0.9"/>
+
+  <!-- Smaller Pixel Star -->
+  <rect x="74" y="74" width="6" height="6" fill="#3D3846" fill-opacity="0.8"/>
+  <rect x="80" y="68" width="6" height="6" fill="#3D3846" fill-opacity="0.8"/>
+  <rect x="80" y="80" width="6" height="6" fill="#3D3846" fill-opacity="0.8"/>
+  <rect x="86" y="74" width="6" height="6" fill="#3D3846" fill-opacity="0.8"/>
+</svg>
