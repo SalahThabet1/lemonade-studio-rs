@@ -8,3 +8,4 @@ settings.json
 lemonade-studio.log
 __pycache__/
 *.pyc
+dist/

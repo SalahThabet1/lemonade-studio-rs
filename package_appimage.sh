@@ -6,6 +6,9 @@ PROJECT_DIR="${PROJECT_DIR:-$SCRIPT_DIR}"
 APP_DIR="${APP_DIR:-${PROJECT_DIR}/build/LemonadeStudio.AppDir}"
 OUT_APPIMAGE="${OUT_APPIMAGE:-${PROJECT_DIR}/build/LemonadeStudio.AppImage}"
 ICON_SVG_SRC="${ICON_SVG_SRC:-${PROJECT_DIR}/assets/icons/ai.lemonadestudio.LemonadeStudio.svg}"
+# Optional: directory of extra shared libraries to bundle (e.g. Ubuntu 22.04 X-stack
+# for distro portability). Set LIB_DIR to include them in usr/lib.
+LIB_DIR="${LIB_DIR:-${PROJECT_DIR}/build/deps}"
 
 echo "=== Packaging Lemonade Studio AppImage ==="
 echo "Project: ${PROJECT_DIR}"
@@ -16,7 +19,10 @@ command -v rsvg-convert >/dev/null 2>&1 || { echo "Missing rsvg-convert in PATH"
 [ -f "${ICON_SVG_SRC}" ] || { echo "Missing icon: ${ICON_SVG_SRC}" >&2; exit 1; }
 
 BIN_SRC=""
-if [ -f "${PROJECT_DIR}/target/release/lemonade-studio-rs" ]; then
+if [ -n "${BIN_SRC:-}" ]; then
+    [ -f "${BIN_SRC}" ] || { echo "BIN_SRC not found: ${BIN_SRC}" >&2; exit 1; }
+    echo "Using override binary: ${BIN_SRC}"
+elif [ -f "${PROJECT_DIR}/target/release/lemonade-studio-rs" ]; then
     BIN_SRC="${PROJECT_DIR}/target/release/lemonade-studio-rs"
     echo "Using release binary..."
 elif [ "${ALLOW_DEBUG:-0}" = "1" ] && [ -f "${PROJECT_DIR}/target/debug/lemonade-studio-rs" ]; then
@@ -29,6 +35,7 @@ fi
 
 rm -rf "${APP_DIR}"
 mkdir -p "${APP_DIR}/usr/bin"
+mkdir -p "${APP_DIR}/usr/lib"
 mkdir -p "${APP_DIR}/usr/share/applications"
 mkdir -p "${APP_DIR}/usr/share/lemonade-studio/scripts"
 mkdir -p "${APP_DIR}/usr/share/icons/hicolor/scalable/apps"
@@ -43,6 +50,19 @@ cp -f "${PROJECT_DIR}/scripts/ai_rmbg.py" "${APP_DIR}/usr/share/lemonade-studio/
 chmod +x "${APP_DIR}/usr/share/lemonade-studio/scripts/ai_rmbg.py"
 cp "${BIN_SRC}" "${APP_DIR}/usr/bin/lemonade-studio-rs"
 chmod +x "${APP_DIR}/usr/bin/lemonade-studio-rs"
+
+# Bundle extra shared libraries when provided (distro portability).
+if [ -d "${LIB_DIR}" ]; then
+    shopt -s nullglob
+    bundled=0
+    for lib in "${LIB_DIR}"/*.so*; do
+        [ -f "$lib" ] || continue
+        cp -L -f "$lib" "${APP_DIR}/usr/lib/"
+        bundled=$((bundled + 1))
+    done
+    shopt -u nullglob
+    echo "Bundled ${bundled} shared librar$( [ "$bundled" -eq 1 ] && echo y || echo ies ) from ${LIB_DIR}"
+fi
 
 rsvg-convert -w 256 -h 256 "${ICON_SVG_SRC}" -o "${APP_DIR}/ai.lemonadestudio.LemonadeStudio.png"
 rsvg-convert -w 256 -h 256 "${ICON_SVG_SRC}" -o "${APP_DIR}/usr/share/icons/hicolor/256x256/apps/ai.lemonadestudio.LemonadeStudio.png"

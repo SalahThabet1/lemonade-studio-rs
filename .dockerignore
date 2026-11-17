@@ -1,0 +1,8 @@
+target/
+build/
+graphify-out/
+outputs/
+settings.json
+.git/
+.impeccable/
+*.tmp

@@ -19,7 +19,25 @@ Honesty rules the app follows:
 - LoRA / ContentRef / Aesthetic controls are **preview-only** until the server API supports
   them; the app warns on generation when they are enabled.
 
-## Requirements
+## Install (recommended)
+
+Download `LemonadeStudio-x86_64.AppImage` from the
+[latest GitHub release](https://github.com/SalahThabet1/lemonade-studio-rs/releases):
+
+```bash
+chmod +x LemonadeStudio-x86_64.AppImage
+./LemonadeStudio-x86_64.AppImage
+```
+
+The AppImage bundles the binary, fonts, textures, and RMBG helper. It is built on
+Ubuntu 22.04 (glibc 2.35) so it runs on Ubuntu 22.04+, Debian 12+, Fedora 38+, Arch,
+and other modern x86_64 distros. You still need a Lemonade server (below) and,
+for neural cutouts, `uv` + the RMBG ONNX model on the host.
+
+Prefer a plain tarball? Releases also ship
+`lemonade-studio-x86_64.tar.gz` (binary + assets + scripts + README).
+
+## Requirements (building from source)
 
 - Linux (tested on Arch), Rust stable, `uv` (for the RMBG helper), `appimagetool` +
   `rsvg-convert` (packaging only).
